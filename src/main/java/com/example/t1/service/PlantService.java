@@ -1,7 +1,7 @@
 package com.example.t1.service;
 
-import com.example.t1.aspect.model.TrackAsyncTime;
-import com.example.t1.aspect.model.TrackTime;
+import com.example.t1.aspect.annotations.TrackAsyncTime;
+import com.example.t1.aspect.annotations.TrackTime;
 import com.example.t1.model.Plant;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.t1.aspect.model;
+package com.example.t1.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

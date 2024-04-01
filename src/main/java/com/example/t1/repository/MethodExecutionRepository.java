@@ -1,6 +1,6 @@
-package com.example.t1.aspect.repository;
+package com.example.t1.repository;
 
-import com.example.t1.aspect.model.MethodExecution;
+import com.example.t1.model.MethodExecution;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.example.t1.aspect.model;
+package com.example.t1.aspect;
 
-import com.example.t1.aspect.service.MethodExecutionSaver;
+import com.example.t1.service.MethodExecutionSaver;
 import jakarta.annotation.Nonnull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,7 +21,7 @@ public class TrackTimeAspect {
         this.methodExecutionSaver = methodExecutionSaver;
     }
 
-    @Around("@annotation(TrackTime)")
+    @Around("@annotation(com.example.t1.aspect.annotations.TrackTime)")
     public Object trackTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Date startExecutionDate = new Date();

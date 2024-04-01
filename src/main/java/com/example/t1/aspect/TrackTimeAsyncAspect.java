@@ -1,19 +1,15 @@
-package com.example.t1.aspect.model;
+package com.example.t1.aspect;
 
-import com.example.t1.aspect.service.MethodExecutionSaver;
+import com.example.t1.service.MethodExecutionSaver;
 import jakarta.annotation.Nonnull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -31,7 +27,7 @@ public class TrackTimeAsyncAspect {
         this.asyncTaskExecutor = asyncTaskExecutor;
     }
 
-    @Around("@annotation(TrackAsyncTime)")
+    @Around("@annotation(com.example.t1.aspect.annotations.TrackAsyncTime)")
     public Object trackAsyncTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Date startExecutionDate = new Date();

@@ -1,4 +1,4 @@
-package com.example.t1.aspect.model;
+package com.example.t1.model;
 
 public enum MethodType {
     ADD_PLANT("addPlant"),
