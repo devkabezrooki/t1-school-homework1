@@ -11,14 +11,7 @@ import java.util.Date;
 @Table(name = "method_executions")
 @Getter
 @Setter
-public class MethodExecution {
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class MethodExecution extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "method_type", nullable = false)
     private MethodType methodType;

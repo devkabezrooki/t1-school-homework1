@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1 init migration" author="devkabezrooki">
+        <createTable tableName="method_executions">
+            <column name="id" remarks="Идентификатор сущности" type="java.sql.Types.BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_method_executions"/>
+            </column>
+            <column name="method_type" remarks="Вид метода" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_time" remarks="Время выполнения метода в мс" type="java.sql.Types.BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_date" remarks="Дата + время выполнения метода" type="timestamp(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_async" remarks="Асинхронность метода" type="java.sql.Types.BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="plants">
+            <column name="id" remarks="Идентификатор сущности" type="java.sql.Types.BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_plants"/>
+            </column>
+            <column name="name" remarks="Наименование растения" type="java.sql.Types.VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plant_type" remarks="Вид растения" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="water_frequency" remarks="Частота полива в часах" type="java.sql.Types.INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="plant_waterings">
+            <column name="id" remarks="Идентификатор сущности" type="java.sql.Types.BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_plant_waterings"/>
+            </column>
+            <column name="plant_id" remarks="Идентификатор растения" type="java.sql.Types.BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_plant_waterings_plants"
+                             referencedTableName="plants" referencedColumnNames="id"/>
+            </column>
+            <column name="watering_time" remarks="Дата + время полива растения" type="timestamp(6)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="plants">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Роза"/>
+            <column name="plant_type" value="FLOWER"/>
+            <column name="water_frequency" valueNumeric="12"/>
+        </insert>
+
+        <insert tableName="plants">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Кактус"/>
+            <column name="plant_type" value="FLOWER"/>
+            <column name="water_frequency" valueNumeric="48"/>
+        </insert>
+
+        <insert tableName="plants">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="Дуб"/>
+            <column name="plant_type" value="TREE"/>
+        </insert>
+
+        <insert tableName="plants">
+            <column name="id" valueNumeric="4"/>
+            <column name="name" value="Береза"/>
+            <column name="plant_type" value="TREE"/>
+        </insert>
+
+        <insert tableName="plants">
+            <column name="id" valueNumeric="5"/>
+            <column name="name" value="Огурцы"/>
+            <column name="plant_type" value="VEGETABLE"/>
+            <column name="water_frequency" valueNumeric="36"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

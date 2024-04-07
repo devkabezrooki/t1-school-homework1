@@ -1,12 +1,25 @@
 package com.example.t1.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Entity
+@Table(name = "plants")
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class Plant {
+public class Plant extends BaseEntity{
 
+    @Column(name = "name", nullable = false)
     private String name;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "plant_type", nullable = false)
+    private PlantType type;
+    @Column(name = "water_frequency", nullable = false)
+    private int wateringFrequency;
+
 }

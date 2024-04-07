@@ -1,11 +1,10 @@
-package com.example.t1.service;
+package com.example.t1.service.tracking;
 
 import com.example.t1.model.MethodExecution;
 import com.example.t1.model.MethodType;
 import com.example.t1.repository.MethodExecutionRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,6 @@ public class MethodExecutionSaver {
         this.methodExecutionRepository = methodExecutionRepository;
     }
 
-    @Async
     @Transactional
     public void save(String methodName,
                      Long timeTaken,
