@@ -1,4 +1,4 @@
-package com.example.t1.service.tracking;
+package com.example.t1.service;
 
 import com.example.t1.model.MethodExecution;
 import com.example.t1.model.enums.MethodType;

@@ -1,4 +1,4 @@
-package com.example.t1.service.tracking;
+package com.example.t1.service;
 
 import com.example.t1.model.enums.MethodType;
 import com.example.t1.model.enums.SortOrder;

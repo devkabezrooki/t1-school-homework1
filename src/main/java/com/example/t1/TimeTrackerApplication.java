@@ -2,7 +2,7 @@ package com.example.t1;
 
 import com.example.t1.model.Plant;
 import com.example.t1.model.enums.PlantType;
-import com.example.t1.service.executing.PlantService;
+import com.example.t1.service.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

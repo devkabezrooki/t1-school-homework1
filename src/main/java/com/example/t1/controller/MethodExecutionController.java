@@ -4,7 +4,7 @@ import com.example.t1.model.enums.MethodType;
 import com.example.t1.model.enums.SortOrder;
 import com.example.t1.model.dto.MethodAverageExecutionTimeDto;
 import com.example.t1.model.dto.MethodExecutionCountDto;
-import com.example.t1.service.tracking.MethodExecutionService;
+import com.example.t1.service.MethodExecutionService;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
