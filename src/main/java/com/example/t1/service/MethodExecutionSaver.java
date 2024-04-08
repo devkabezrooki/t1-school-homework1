@@ -1,7 +1,7 @@
 package com.example.t1.service;
 
 import com.example.t1.model.MethodExecution;
-import com.example.t1.model.enums.MethodType;
+import com.example.t1.model.dto.MethodExecutionDto;
 import com.example.t1.repository.MethodExecutionRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,11 @@ public class MethodExecutionSaver {
     }
 
     @Transactional
-    public void save(String methodName,
-                     Long timeTaken,
-                     boolean isAsync) {
-        MethodType methodType = MethodType.fromMethodName(methodName);
+    public void save(MethodExecutionDto executionDto) {
         MethodExecution methodExecution = new MethodExecution();
-        methodExecution.setMethodType(methodType);
-        methodExecution.setExecutionTime(timeTaken);
-        methodExecution.setAsync(isAsync);
+        methodExecution.setMethodType(executionDto.getMethodType());
+        methodExecution.setExecutionTime(executionDto.getExecutionTime());
+        methodExecution.setAsync(executionDto.getMethodType().isAsync());
 
         methodExecutionRepository.save(methodExecution);
     }
