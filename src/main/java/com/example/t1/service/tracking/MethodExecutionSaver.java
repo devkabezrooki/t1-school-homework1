@@ -23,13 +23,11 @@ public class MethodExecutionSaver {
     @Transactional
     public void save(String methodName,
                      Long timeTaken,
-                     Date startExecutionDate,
                      boolean isAsync) {
         MethodType methodType = MethodType.fromMethodName(methodName);
         MethodExecution methodExecution = new MethodExecution();
         methodExecution.setMethodType(methodType);
         methodExecution.setExecutionTime(timeTaken);
-        methodExecution.setExecutionDate(startExecutionDate);
         methodExecution.setAsync(isAsync);
 
         methodExecutionRepository.save(methodExecution);

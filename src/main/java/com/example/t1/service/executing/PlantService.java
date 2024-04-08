@@ -15,7 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,13 +47,13 @@ public class PlantService {
         return plantRepository.findByName(name);
     }
 
-    @TrackAsyncTime
+    @TrackTime
     @Transactional
     public List<Plant> getPlantsByType(PlantType type) {
         return plantRepository.findAllByType(type);
     }
 
-    @TrackAsyncTime
+    @TrackTime
     @Transactional
     public void waterPlant(Plant plant) {
         PlantWatering plantWatering = new PlantWatering(plant);
@@ -59,25 +63,55 @@ public class PlantService {
     @TrackAsyncTime
     @Transactional
     public List<Plant> getAllPlantsThatRequireWatering() {
-        return plantRepository.findAllByWateringFrequencyGreaterThan(0).stream()
-                .filter(p -> {
-                    PlantWatering lastWatering = plantWateringRepository.findTopByPlantOrderByWateringTimeDesc(p);
-                    if (lastWatering == null) {
-                        return true;
-                    } else {
+        List<Plant> allPlantsWithWatering = plantRepository.findAllByWateringFrequencyGreaterThan(0);
+        List<CompletableFuture<Plant>> allFutures = new LinkedList<>();
+
+        allPlantsWithWatering.forEach(p -> {
+            CompletableFuture<Plant> completableFuture = CompletableFuture.supplyAsync(() -> {
+                        PlantWatering lastWatering = plantWateringRepository.findTopByPlantOrderByWateringTimeDesc(p);
+                        if (lastWatering == null) {
+                            return p;
+                        }
                         Duration duration = Duration.between(
                                 lastWatering.getWateringTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                                 new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
                         );
-                        return duration.toHours() >= p.getWateringFrequency();
+                        return duration.toHours() >= lastWatering.getPlant().getWateringFrequency() ? p : null;
                     }
-                })
-                .collect(Collectors.toList());
+            );
+            allFutures.add(completableFuture);
+        });
+
+        CompletableFuture<List<Plant>> combinedFuture = CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[allFutures.size()]))
+                .thenApply(f -> allFutures.stream()
+                        .map(CompletableFuture::join)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList()));
+
+        return combinedFuture.join();
     }
 
     @TrackAsyncTime
     @Transactional
     public void waterAllPlantsThatNeeded() {
-        getAllPlantsThatRequireWatering().forEach(p -> waterPlant(p));
+        List<Plant> allPlantsThatRequireWatering = getAllPlantsThatRequireWatering();
+        List<CompletableFuture<Void>> allFutures = new LinkedList<>();
+
+        allPlantsThatRequireWatering.forEach(p -> {
+            CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() -> {
+                        waterPlant(p);
+                        return null;
+                    }
+            );
+            allFutures.add(completableFuture);
+        });
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[allFutures.size()]));
+
+        try {
+            allOf.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

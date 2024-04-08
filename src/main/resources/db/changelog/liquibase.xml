@@ -16,9 +16,6 @@
             <column name="execution_time" remarks="Время выполнения метода в мс" type="java.sql.Types.BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="execution_date" remarks="Дата + время выполнения метода" type="timestamp(6)">
-                <constraints nullable="false"/>
-            </column>
             <column name="is_async" remarks="Асинхронность метода" type="java.sql.Types.BOOLEAN" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>

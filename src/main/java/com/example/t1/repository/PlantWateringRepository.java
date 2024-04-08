@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface PlantWateringRepository extends JpaRepository<PlantWatering, Long> {
 
     PlantWatering findTopByPlantOrderByWateringTimeDesc(Plant plant);
+
 }

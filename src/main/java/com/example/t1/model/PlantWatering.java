@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PlantWatering extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plant_id", nullable = false)
     private Plant plant;
 

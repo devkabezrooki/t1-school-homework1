@@ -26,14 +26,13 @@ public class TrackTimeAsyncAspect {
     @Around("@annotation(com.example.t1.aspect.annotations.TrackAsyncTime)")
     public Object trackAsyncTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
-        Date startExecutionDate = new Date();
         Object proceed = joinPoint.proceed();
         long timeTaken = System.currentTimeMillis() - startTime;
         String methodName = joinPoint.getSignature().getName();
 
         log.info("метод {} выполнен за {}  мс", methodName, timeTaken);
 
-        methodExecutionSaver.save(methodName, timeTaken, startExecutionDate, true);
+        methodExecutionSaver.save(methodName, timeTaken, true);
 
         return proceed;
     }
