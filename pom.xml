@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>t1</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>t1-time-tracker</artifactId>
+	<version>0.0.1</version>
 	<name>time-tracker</name>
 	<description>Method execution time for T1 developers school</description>
 	<properties>
