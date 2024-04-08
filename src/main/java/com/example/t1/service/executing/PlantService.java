@@ -3,7 +3,7 @@ package com.example.t1.service.executing;
 import com.example.t1.aspect.annotations.TrackAsyncTime;
 import com.example.t1.aspect.annotations.TrackTime;
 import com.example.t1.model.Plant;
-import com.example.t1.model.PlantType;
+import com.example.t1.model.enums.PlantType;
 import com.example.t1.model.PlantWatering;
 import com.example.t1.repository.PlantRepository;
 import com.example.t1.repository.PlantWateringRepository;

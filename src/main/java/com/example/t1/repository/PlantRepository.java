@@ -1,7 +1,7 @@
 package com.example.t1.repository;
 
 import com.example.t1.model.Plant;
-import com.example.t1.model.PlantType;
+import com.example.t1.model.enums.PlantType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

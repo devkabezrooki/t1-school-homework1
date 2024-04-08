@@ -1,5 +1,6 @@
 package com.example.t1.model;
 
+import com.example.t1.model.enums.PlantType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

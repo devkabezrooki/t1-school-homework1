@@ -1,4 +1,4 @@
-package com.example.t1.model;
+package com.example.t1.model.enums;
 
 public enum MethodType {
     ADD_PLANT("addPlant"),
