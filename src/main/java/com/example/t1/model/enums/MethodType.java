@@ -8,9 +8,9 @@ public enum MethodType {
     GET_PLANTS_BY_TYPE("getPlantsByType"),
     PLANT_WATERING("waterPlant"),
     GET_ALL_PLANTS_FOR_WATERING("getAllPlantsThatRequireWatering"),
-    WATER_ALL_PLANTS("waterAllPlantsThatNeeded");
+    WATER_PLANTS("waterPlants");
 
-    public static Set<MethodType> ASYNC_METHODS = Set.of(GET_ALL_PLANTS_FOR_WATERING, WATER_ALL_PLANTS);
+    public static Set<MethodType> ASYNC_METHODS = Set.of(GET_ALL_PLANTS_FOR_WATERING, WATER_PLANTS);
 
 
     private final String methodName;

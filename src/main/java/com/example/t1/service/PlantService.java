@@ -3,8 +3,8 @@ package com.example.t1.service;
 import com.example.t1.aspect.annotations.TrackAsyncTime;
 import com.example.t1.aspect.annotations.TrackTime;
 import com.example.t1.model.Plant;
-import com.example.t1.model.enums.PlantType;
 import com.example.t1.model.PlantWatering;
+import com.example.t1.model.enums.PlantType;
 import com.example.t1.repository.PlantRepository;
 import com.example.t1.repository.PlantWateringRepository;
 import jakarta.annotation.Nonnull;
@@ -93,11 +93,13 @@ public class PlantService {
 
     @TrackAsyncTime
     @Transactional
-    public void waterAllPlantsThatNeeded() {
-        List<Plant> allPlantsThatRequireWatering = getAllPlantsThatRequireWatering();
+    public void waterPlants(List<Plant> plantsThatRequireWatering) throws ExecutionException, InterruptedException {
+        if (plantsThatRequireWatering == null || plantsThatRequireWatering.isEmpty()) {
+            return;
+        }
         List<CompletableFuture<Void>> allFutures = new LinkedList<>();
 
-        allPlantsThatRequireWatering.forEach(p -> {
+        plantsThatRequireWatering.forEach(p -> {
             CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() -> {
                         waterPlant(p);
                         return null;
@@ -108,10 +110,6 @@ public class PlantService {
 
         CompletableFuture<Void> allOf = CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[allFutures.size()]));
 
-        try {
-            allOf.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        allOf.get();
     }
 }

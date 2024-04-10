@@ -1,9 +1,9 @@
 package com.example.t1.controller;
 
-import com.example.t1.model.enums.MethodType;
-import com.example.t1.model.enums.SortOrder;
 import com.example.t1.model.dto.MethodAverageExecutionTimeDto;
 import com.example.t1.model.dto.MethodExecutionCountDto;
+import com.example.t1.model.enums.MethodType;
+import com.example.t1.model.enums.SortOrder;
 import com.example.t1.service.MethodExecutionService;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,10 @@ public class MethodExecutionController {
     public ResponseEntity<MethodAverageExecutionTimeDto> getAverageExecutionTime(
             @RequestParam(value = "methodType", required = false) MethodType methodType,
             @RequestParam(value = "async", required = false) Boolean isAsync) {
+        if (methodType != null && isAsync != null && methodType.isAsync() != isAsync) {
+            String message = "Метод " + methodType + " не является " + (isAsync ? "асинхронным" : "синхронным");
+            throw new IllegalArgumentException(message);
+        }
         if (methodType != null) {
             return ResponseEntity.ok(methodExecutionService.getMethodAverageExecutionTimeByMethodType(methodType));
         } else if (isAsync != null) {

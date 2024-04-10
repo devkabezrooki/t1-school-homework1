@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class MethodExecutionSaver {
 
@@ -20,11 +22,13 @@ public class MethodExecutionSaver {
 
     @Transactional
     public void save(MethodExecutionDto executionDto) {
-        MethodExecution methodExecution = new MethodExecution();
-        methodExecution.setMethodType(executionDto.getMethodType());
-        methodExecution.setExecutionTime(executionDto.getExecutionTime());
-        methodExecution.setAsync(executionDto.getMethodType().isAsync());
+        CompletableFuture.runAsync(() -> {
+            MethodExecution methodExecution = new MethodExecution();
+            methodExecution.setMethodType(executionDto.getMethodType());
+            methodExecution.setExecutionTime(executionDto.getExecutionTime());
+            methodExecution.setAsync(executionDto.getMethodType().isAsync());
 
-        methodExecutionRepository.save(methodExecution);
+            methodExecutionRepository.save(methodExecution);
+        });
     }
 }

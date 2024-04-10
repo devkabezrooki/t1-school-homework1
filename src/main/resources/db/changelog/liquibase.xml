@@ -36,6 +36,12 @@
             </column>
         </createTable>
 
+        <sql>
+            ALTER TABLE plants
+                ADD CONSTRAINT min_value_constraint
+                    CHECK (water_frequency >= 0);
+        </sql>
+
         <createTable tableName="plant_waterings">
             <column name="id" remarks="Идентификатор сущности" type="java.sql.Types.BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_plant_waterings"/>

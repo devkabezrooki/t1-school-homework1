@@ -12,7 +12,7 @@ import org.hibernate.annotations.Parameter;
 public abstract class BaseEntity {
     @Id
     @Column(name = "id", nullable = false, unique = true)
-    @Getter(AccessLevel.NONE)
+    @Getter
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="IdGenerator")
     @GenericGenerator(name="IdGenerator", strategy="increment", parameters = {

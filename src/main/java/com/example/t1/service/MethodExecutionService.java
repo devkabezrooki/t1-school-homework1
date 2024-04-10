@@ -1,9 +1,9 @@
 package com.example.t1.service;
 
-import com.example.t1.model.enums.MethodType;
-import com.example.t1.model.enums.SortOrder;
 import com.example.t1.model.dto.MethodAverageExecutionTimeDto;
 import com.example.t1.model.dto.MethodExecutionCountDto;
+import com.example.t1.model.enums.MethodType;
+import com.example.t1.model.enums.SortOrder;
 import com.example.t1.repository.MethodExecutionRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;

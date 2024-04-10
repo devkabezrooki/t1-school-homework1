@@ -8,10 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.CompletableFuture;
 
 @Component
 @Aspect
@@ -25,27 +24,32 @@ public class TrackTimeAspect {
         this.methodExecutionSaver = methodExecutionSaver;
     }
 
-    @Around("@annotation(com.example.t1.aspect.annotations.TrackTime) " +
-            "|| @annotation(com.example.t1.aspect.annotations.TrackAsyncTime)")
+    @Pointcut("@annotation(com.example.t1.aspect.annotations.TrackTime)")
+    public void trackTimePoincut(){};
+
+    @Pointcut("@annotation(com.example.t1.aspect.annotations.TrackAsyncTime)")
+    public void trackAsyncTimePointcut(){};
+
+    @Around("trackTimePoincut() || trackAsyncTimePointcut()")
     public Object trackTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        String methodName = joinPoint.getSignature().getName();
         try {
-            long startTime = System.currentTimeMillis();
             Object proceed = joinPoint.proceed();
             long timeTaken = System.currentTimeMillis() - startTime;
-            String methodName = joinPoint.getSignature().getName();
             MethodType methodType = MethodType.fromMethodName(methodName);
             boolean isAsync = methodType.isAsync();
 
-            log.info("метод {} выполнен {}за {}  мс", methodName, isAsync ? "асинхронно" : "", timeTaken);
+            log.info("метод {} выполнен {}за {}  мс", methodName, isAsync ? "асинхронно " : "", timeTaken);
 
-            MethodExecutionDto executionDto = new MethodExecutionDto().setMethodType(MethodType.fromMethodName(methodName))
+            MethodExecutionDto executionDto = new MethodExecutionDto().setMethodType(methodType)
                     .setExecutionTime(timeTaken).setAsync(isAsync);
-            CompletableFuture.runAsync(() -> methodExecutionSaver.save(executionDto));
+            methodExecutionSaver.save(executionDto);
             return proceed;
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            log.error("В процессе выполнения метода {} произошла ошибка: ", methodName, e);
+            return null;
         }
-
     }
 
 }
