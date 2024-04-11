@@ -3,9 +3,11 @@
 # Описание реализации:
 Реализовано 2 аннотации:
 * **@TrackTime** - для асинхронного сохранения времени метода, выполняющегося последовательно. 
-* **@TrackAsyncTime** - для асинхронного сохранения времени метода, выполняющегося асинхронно. 
+* **@TrackAsyncTime** - для асинхронного сохранения времени метода, выполняющегося асинхронно.
 
-Данные о времени выолнения метода сохраняются в бд Postgresql, для создания таблиц написан скрипт с помощью Liquibase (src\main\resources\db\changelog\liquibase.xml). 
+Аспекты находятся в пакете src/main/java/com/example/t1/aspect.
+
+Данные о времени выполнения метода сохраняются в бд Postgresql, для создания таблиц написан скрипт с помощью Liquibase (src\main\resources\db\changelog\liquibase.xml). 
 Для сохранения используется таблица method_executions:
 
 ![image](https://github.com/devkabezrooki/t1-school-homework1/assets/49373926/fc7f7b1c-0227-42d2-a0b8-e0f3d23ef104)
