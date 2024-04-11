@@ -1,15 +1,13 @@
 package com.example.t1.model.dto;
 
 import com.example.t1.model.enums.MethodType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Accessors(chain = true)
+@AllArgsConstructor
 public class MethodExecutionDto {
 
     private MethodType methodType;

@@ -14,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -43,7 +40,7 @@ public class PlantService {
 
     @TrackTime
     @Transactional
-    public Plant getPlantByName(String name) {
+    public Optional<Plant> getPlantByName(String name) {
         return plantRepository.findByName(name);
     }
 
@@ -68,10 +65,11 @@ public class PlantService {
 
         allPlantsWithWatering.forEach(p -> {
             CompletableFuture<Plant> completableFuture = CompletableFuture.supplyAsync(() -> {
-                        PlantWatering lastWatering = plantWateringRepository.findTopByPlantOrderByWateringTimeDesc(p);
-                        if (lastWatering == null) {
+                        Optional<PlantWatering> maybeLastWatering = plantWateringRepository.findTopByPlantOrderByWateringTimeDesc(p);
+                        if (maybeLastWatering.isEmpty()) {
                             return p;
                         }
+                        PlantWatering lastWatering = maybeLastWatering.get();
                         Duration duration = Duration.between(
                                 lastWatering.getWateringTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                                 new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()

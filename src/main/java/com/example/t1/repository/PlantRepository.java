@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlantRepository extends JpaRepository<Plant, Long> {
-    public Plant findByName(String name);
-    public List<Plant> findAllByType(PlantType type);
+    Optional<Plant> findByName(String name);
+    List<Plant> findAllByType(PlantType type);
 
-    public List<Plant> findAllByWateringFrequencyGreaterThan(int frequency);
+    List<Plant> findAllByWateringFrequencyGreaterThan(int frequency);
 }

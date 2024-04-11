@@ -3,6 +3,7 @@ package com.example.t1;
 import com.example.t1.model.Plant;
 import com.example.t1.model.enums.PlantType;
 import com.example.t1.service.PlantService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @SpringBootApplication(scanBasePackages={"com.example.t1"})
 @EnableTransactionManagement
+@Slf4j
 public class TimeTrackerApplication {
 
 	@Autowired
@@ -28,8 +30,8 @@ public class TimeTrackerApplication {
 	public void onReady() throws Exception {
 		plantService.addPlant(new Plant("Помидоры", PlantType.VEGETABLE, 72));
 		List<Plant> flowers = plantService.getPlantsByType(PlantType.FLOWER);
-		System.out.println(flowers.stream().map(Plant::getName).collect(Collectors.joining(", ")));
-		System.out.println(plantService.getPlantByName("Дуб").getName());
+		log.info(flowers.stream().map(Plant::getName).collect(Collectors.joining(", ")));
+		plantService.getPlantByName("Дуб").ifPresent(p -> log.info(p.getName()));
 		plantService.waterPlant(flowers.get(0));
 		List<Plant> plantsThatRequireWaterings = plantService.getAllPlantsThatRequireWatering();
 		plantService.waterPlants(plantsThatRequireWaterings);

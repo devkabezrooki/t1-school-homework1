@@ -10,10 +10,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
+@Order(1) //чтобы не мешать работе @Transactional
 @Slf4j
 public class TrackTimeAspect {
 
@@ -42,8 +44,7 @@ public class TrackTimeAspect {
 
             log.info("метод {} выполнен {}за {}  мс", methodName, isAsync ? "асинхронно " : "", timeTaken);
 
-            MethodExecutionDto executionDto = new MethodExecutionDto().setMethodType(methodType)
-                    .setExecutionTime(timeTaken).setAsync(isAsync);
+            MethodExecutionDto executionDto = new MethodExecutionDto(methodType, timeTaken, isAsync);
             methodExecutionSaver.save(executionDto);
             return proceed;
         } catch (Throwable e) {
